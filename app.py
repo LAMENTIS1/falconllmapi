@@ -52,21 +52,22 @@ def allowed_audio_format(filename):
     """Checks if the uploaded file has a supported audio format."""
     allowed_extensions = {'wav', 'flac', 'ogg'}
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+os.environ['API_KEY'] = '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'
+model_id = 'tiiuae/falcon-7b-instruct'
 
-if __name__ == '__main__':
-    # Assuming falcon_chain is defined elsewhere in your code
-    os.environ['API_KEY'] = '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'
-    model_id = 'tiiuae/falcon-7b-instruct'
-
-    falcon_llm = HuggingFaceHub(huggingfacehub_api_token=os.environ['API_KEY'],
+falcon_llm = HuggingFaceHub(huggingfacehub_api_token=os.environ['API_KEY'],
                                 repo_id=model_id,
                                 model_kwargs={"temperature": 0.8, "max_new_tokens": 2000})
 
-    template = """
+template = """
         Hello! I am GVP Bot, your robotic AI assistant ready to provide helpful answers and solutions to your queries.
         User: {question}
         """
-    prompt = PromptTemplate(template=template, input_variables=['question'])
-    falcon_chain = LLMChain(llm=falcon_llm, prompt=prompt, verbose=True)
+prompt = PromptTemplate(template=template, input_variables=['question'])
+falcon_chain = LLMChain(llm=falcon_llm, prompt=prompt, verbose=True)    
+
+if __name__ == '__main__':
+    # Assuming falcon_chain is defined elsewhere in your code
+
 
     app.run(host='0.0.0.0')  # Bind to all interfaces for cloud deployment
