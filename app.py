@@ -69,4 +69,4 @@ if __name__ == '__main__':
     prompt = PromptTemplate(template=template, input_variables=['question'])
     falcon_chain = LLMChain(llm=falcon_llm, prompt=prompt, verbose=True)
 
-    app.run()  # Bind to all interfaces for cloud deployment
+    app.run(host='0.0.0.0')  # Bind to all interfaces for cloud deployment
